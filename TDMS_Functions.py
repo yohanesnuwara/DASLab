@@ -103,32 +103,32 @@ def main():
     dirpath='D:\\Research\\OpticSensing\\pretest\\RITE_first_trial\\'
 
 
-# In[227]:
+# # In[227]:
 
 
-# Example to use TDMS class and functions
-#
+# # Example to use TDMS class and functions
+# #
 
-# .. Declare the class Tdms as test1
-    test1=Tdms()
+# # .. Declare the class Tdms as test1
+#     test1=Tdms()
 
-# .. Load variables from the TDMS file
-    test1.load_variables(dirpath+"test01_UTC_20190316_082052.162.tdms")
-
-
-# In[228]:
+# # .. Load variables from the TDMS file
+#     test1.load_variables(dirpath+"test01_UTC_20190316_082052.162.tdms")
 
 
-# .. View the contour map
-    test1.view()
+# # In[228]:
 
 
-# In[229]:
+# # .. View the contour map
+#     test1.view()
 
 
-# .. View the all header variables
-    test1.print_headers()
-# In[226]:
+# # In[229]:
+
+
+# # .. View the all header variables
+#     test1.print_headers()
+# # In[226]:
 
 
 if __name__== '__main__':
