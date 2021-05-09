@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import sys
 from pylab import *
 from nptdms import TdmsFile
-
+from signalprocessing import *
 
 plt.rcParams["font.size"] = 18
 
