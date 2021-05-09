@@ -1,2 +1,3 @@
 # DASLab
-Distributed acoustic sensing lab
+
+PS arrival time automatic picking with Kurtosis method
