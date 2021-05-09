@@ -174,7 +174,7 @@ def kurtosisHeatmap(kurt, time_axis, n_traces, cmap='jet', figsize=(7,5),
 
   # Plot kurtosis heatmap
   plt.figure(figsize=figsize)
-  plt.imshow(kurt, aspect='auto', extent=(tcut[0], tcut[-1], n_traces-1, 0), 
+  plt.imshow(kurt, aspect='auto', extent=(time_axis[0], time_axis[-1], n_traces-1, 0), 
             cmap=cmap, vmin=vmin, vmax=vmax)
   plt.colorbar()  
 
