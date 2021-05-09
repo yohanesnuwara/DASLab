@@ -133,3 +133,76 @@ def main():
 
 if __name__== '__main__':
     main()
+
+def load_data_with_filter(filepath, ar_denoise=(-90,-20), order=5, hicut=40, 
+                          locut=2, depthinit=True, denoiseflg=True, bpfflg=True, 
+                          sliceflg={'bc880':True, 'hwc250':True,'stc250':True,
+                                    'stcSurf':True,'hwcSurf':True,'welma':False},
+                          slicevalue={'bc880':(3938,4690),'hwc250':(1016,1299),
+                                      'stc250':(3243,3494),'stcSurf':(2800,3243),
+                                      'hwcSurf':(525,1016),'welma':(2916,3615)},
+                          fileformat='tdms', temptdms=False, tdmschange=False,
+                          nsamples=16000, nchannels=4992):
+    
+    def chunckrun(slx):
+        if bpfflg:
+            slx.data=apply_bpf(slx.data,locut,hicut,1000,order=5)
+        if depthinit:
+            init_zz(slx)
+        
+    event1023=Model()
+    #filepath='/mnt/h/20200210/connected whole_UTC_20200212_103700.000.tdms'
+    if fileformat=='tdms':
+        event1023.entire=load_tdms_as_Fibers(filepath)
+    elif fileformat=='segy':
+        if tdmschange==True:
+            event1023.entire=load_segy_as_Fibers_change(filepath, 
+                                                        tdmsfile=temptdms,
+                                                        nchannels=nchannels,
+                                                        nsamples=nsamples)
+        else:
+            event1023.entire=load_segy_as_Fibers(filepath,tdmsfile=temptdms)
+    
+    print('Entire data size=',event1023.entire.data.shape)
+
+    if denoiseflg:
+        event1023.entire.data=denoising(event1023.entire,ar_denoise)
+    
+    if sliceflg['bc880']:
+        event1023.bc880=slice_spacechunk(event1023.entire,slicevalue['bc880'])
+        chunckrun(event1023.bc880)
+    if sliceflg['stc250']:
+        event1023.stc250=slice_spacechunk(event1023.entire,slicevalue['stc250'])
+        chunckrun(event1023.stc250)
+    if sliceflg['hwc250']:
+        event1023.hwc250=slice_spacechunk(event1023.entire,slicevalue['hwc250'])
+        chunckrun(event1023.hwc250)       
+    if sliceflg['hwcSurf']:
+        event1023.hwcSurf=slice_spacechunk(event1023.entire,slicevalue['hwcSurf'])
+        chunckrun(event1023.hwcSurf)
+    if sliceflg['stcSurf']:
+        event1023.stcSurf=slice_spacechunk(event1023.entire,slicevalue['stcSurf'])
+        chunckrun(event1023.stcSurf)
+    if sliceflg['welma']:
+        event1023.welma=slice_spacechunk(event1023.entire,slicevalue['welma'])
+        chunckrun(event1023.welma)    
+    return event1023
+
+def load_segy_as_Fibers_change(segyfile,tdmsfile,nchannels=4992,nsamples=16000):
+    slx2020=Tdms()
+    slx2020.load_variables(tdmsfile)
+    slx=Fibres()
+    slx.nsamples=nsamples
+    slx.nchannels=nchannels
+    slx.nt=nsamples
+
+    
+    print('inside SEGY loading function',slx.nsamples,slx.nchannels)
+
+    slx.zz=mycp(slx2020.zz[0:nchannels])
+#    slx.data=mycp(slx2020.data)
+    slx.read_data(segyfile,slx.nchannels,slx.nsamples,sgy=True,endian='big')
+    print(segyfile)
+    print('Inside, data shape=',slx.data.shape)
+    slx.tt=mycp(slx2020.tt[0:nsamples])
+    return slx    
