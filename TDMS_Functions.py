@@ -5,7 +5,6 @@ import sys
 from pylab import *
 from nptdms import TdmsFile
 from signalprocessing import *
-from testfile import *
 
 plt.rcParams["font.size"] = 18
 
