@@ -50,5 +50,3 @@ def plotWaveformTraces(event, magnify=1, lpf=None, color='black', alpha=0.2,
 
 lpf = None
 # lpf = {"f": 10, "fs": 1000/1}
-
-plotWaveformTraces(event1.hwc250, magnify=10, lpf=lpf, xlim=(58,60))
