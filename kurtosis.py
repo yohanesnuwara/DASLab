@@ -51,6 +51,100 @@ def cutTrace(event, no_trace, cut_trace):
   ycut = y[index_cut[0]:index_cut[1]]  
   return tcut, ycut
 
+def kurtosisFindArrival(event, no_trace, cut_trace, win, lpf=None,
+                          window=100, plot=False, pick_color=None, title=None):
+  """
+  Autopicking arrival times using Kurtosis and plot
+
+  INPUT:
+
+  event: Event data (TDMS object)
+  cut_trace: Cut trace window. Specify as tuple (start,end) with start is the
+    start time and end is the end time
+  win: Searching window for time arrivals. It is a LIST of TUPLES, for instance
+    [(x0,y0), (x1,y1), ..., (xn, yn)] where n is the number of arrivals you want
+    to find, xn is the the starting range, and yn is the ending range. In case
+    you want to find P and S arrival, then your win will be [(xp,yp), (xs, ys)]
+  lpf: Low-pass filter. 
+    * Default is None: No filter is used
+    * If used, specify as dictionary of f (low pass frequency) and fs (sampling
+      frequency)
+  window: Kurtosis calculation window. Default is 100.
+  plot: Option to plot the result. Default is False, so no plot is produced, but
+    the following OUTPUTS will be produced.
+
+  OUTPUT:
+
+  t: Autopicked arrival times 
+  A: Autopicked arrival kurtosis
+
+  NOTE: Both t and A are LIST, with size that depends on your specified "win"
+        For two arrivals i.e. P and S arrivals, LIST will have shape (2,)
+  """  
+  # Cut trace 
+  tcut, ycut = cutTrace(event, no_trace, cut_trace)
+
+  if lpf!=None:
+    # Low pass filter is applied
+    f, fs = lpf["f"], lpf["fs"]
+    ycut = butter_lowpass_filter(ycut, f, fs, order=5)
+
+  # Kurtosis calculation
+  ycut_kurt = kurtosis(ycut, window=window)  
+  
+  assert type(win) is list, "Your window must be a list. Example: [(10,20)] if only one window, or [(10,20),(60,70)] if two windows."
+  
+  t, A = [], []
+  for i in range(len(win)):
+    # For every window
+    win1 = np.where((tcut >= win[i][0]) & (tcut <= win[i][1]))[0]
+    win1_start, win1_end = win1[0], win1[-1]
+
+    win1_trace = ycut_kurt[win1_start:win1_end]
+
+    # Search the highest point
+    max_win1 = max(win1_trace)
+    Ap = max_win1
+
+    # Search time at the highest point (arrivals)
+    tp = np.where(ycut_kurt == max_win1)[0]
+    tp = tcut[tp][0]
+
+    t.append(tp)
+    A.append(Ap)
+
+  if plot==True:
+    # Plot seismogram and kurtosis
+    plt.figure(figsize=(11,8))
+
+    plt.subplot(2,1,1)
+    plt.plot(tcut, ycut, color="black")
+    plt.title("Trace Cut No. {} of {}".format(no_trace, title))
+    plt.xlabel("Time [sec]")
+    plt.ylabel("Amplitude")
+    plt.xlim(min(tcut), max(tcut))
+    plt.grid()
+
+    # Plot autopicked arrivals
+    for i in range(len(t)):
+      if pick_color==None:
+        plt.axvline(t[i])
+      if pick_color!=None:
+        plt.axvline(t[i], color=pick_color[i])
+
+    plt.subplot(2,1,2)
+    plt.title("Kurtosis of Trace No. {}".format(no_trace))
+    plt.plot(tcut, ycut_kurt, color="red")
+    plt.xlabel("Time [sec]")
+    plt.ylabel("Kurtosis")
+    plt.xlim(min(tcut), max(tcut))
+    plt.grid()
+
+    plt.tight_layout(1.1)
+    plt.show()
+
+  return t, A
+
 def kurtosis_find_arrival(event, no_trace, cut_trace, win1, win2, lpf=None,
                           window=100, plot=False, title=None):
   """
@@ -186,19 +280,19 @@ def kurtosisHeatmap(kurt, time_axis, n_traces, cmap='jet', figsize=(7,5),
   # if plot_arrival==True:
   #   # Plot arrivals
   #   plt.scatter(np.array(tp), np.arange(n_traces), marker='|', s=1, color='red')
-  #   plt.scatter(np.array(ts), np.arange(n_traces), marker='|', s=1, color='red')  
+  #   plt.scatter(np.array(ts), np.arange(n_traces), marker='|', s=1, color='red') 
 
-def pickAllTraces(event, cut_trace, win1, win2, lpf=None, window=100,
+def pickAllTraces(event, cut_trace, win, lpf=None, window=100,
                   save_file=None):
   """
   PS picking of all traces in the event data
-
   INPUT:
-
   event: Event data (TDMS object)
   cut_trace: Cut trace window
-  win1: Searching window for P arrivals
-  win2: Searching window for S arrivals
+  win: Searching window for time arrivals. It is a LIST of TUPLES, for instance
+    [(x0,y0), (x1,y1), ..., (xn, yn)] where n is the number of arrivals you want
+    to find, xn is the the starting range, and yn is the ending range. In case
+    you want to find P and S arrival, then your win will be [(xp,yp), (xs, ys)]
   lpf: Low-pass filter. 
     * Default is None: No filter is used
     * If used, specify as dictionary of f (low pass frequency) and fs (sampling
@@ -209,28 +303,85 @@ def pickAllTraces(event, cut_trace, win1, win2, lpf=None, window=100,
     * If saved, specify the filename to save
   
   OUTPUT:
-
   tp, ts: P and S arrival of all traces (1D arrays)
   Ap, As: Kurtosis value when P and S arrivals of all traces (1D arrays)
   """
   n_traces = len(event.zz)
 
-  tp, ts, Ap, As = [], [], [], []
+  t, A = [], []
   for i in range(n_traces):
-    x = kurtosis_find_arrival(event=event, no_trace=i, cut_trace=cut_trace, 
-                              win1=win1, win2=win2, lpf=lpf, window=window)
-    tp.append(x[0])
-    ts.append(x[1])
-    Ap.append(x[2])
-    As.append(x[3])
+    x = kurtosisFindArrival(event=event, no_trace=i, cut_trace=cut_trace, 
+                            win=win, lpf=lpf, window=window)
+    t_, A_ = x
+    t.append(t_)
+    A.append(A_)
 
     if i%10==0:
       print("Finished picking until trace {}".format(i))
 
   if save_file!=None:
     # Save result to file
-    df = pd.DataFrame({'D': event.zz, 'tp': tp, 'ts': ts, 'Ap': Ap, 'As': As})
+    df = pd.DataFrame({'D': event.zz})
+
+    t, A = np.array(t), np.array(A)
+    m, n = t.shape
+
+    for i in range(n):
+      # Record arrival times
+      colname_t = 't'+'{}'.format(i+1)
+      df[colname_t] = t[:,i]
+      # Record arrival kurtosis
+      colname_A = 'A'+'{}'.format(i+1)
+      df[colname_A] = A[:,i]            
+
     df.to_csv(save_file, index=False)  
     print("Saved file to {}".format(save_file))
   
-  return tp, ts, Ap, As
+  return t, A
+
+# def pickAllTraces(event, cut_trace, win1, win2, lpf=None, window=100,
+#                   save_file=None):
+#   """
+#   PS picking of all traces in the event data
+
+#   INPUT:
+
+#   event: Event data (TDMS object)
+#   cut_trace: Cut trace window
+#   win1: Searching window for P arrivals
+#   win2: Searching window for S arrivals
+#   lpf: Low-pass filter. 
+#     * Default is None: No filter is used
+#     * If used, specify as dictionary of f (low pass frequency) and fs (sampling
+#       frequency)
+#   window: Kurtosis calculation window. Default is 100.
+#   save_file: Saving arrivals to CSV file
+#     * Default is None: No file is saved
+#     * If saved, specify the filename to save
+  
+#   OUTPUT:
+
+#   tp, ts: P and S arrival of all traces (1D arrays)
+#   Ap, As: Kurtosis value when P and S arrivals of all traces (1D arrays)
+#   """
+#   n_traces = len(event.zz)
+
+#   tp, ts, Ap, As = [], [], [], []
+#   for i in range(n_traces):
+#     x = kurtosis_find_arrival(event=event, no_trace=i, cut_trace=cut_trace, 
+#                               win1=win1, win2=win2, lpf=lpf, window=window)
+#     tp.append(x[0])
+#     ts.append(x[1])
+#     Ap.append(x[2])
+#     As.append(x[3])
+
+#     if i%10==0:
+#       print("Finished picking until trace {}".format(i))
+
+#   if save_file!=None:
+#     # Save result to file
+#     df = pd.DataFrame({'D': event.zz, 'tp': tp, 'ts': ts, 'Ap': Ap, 'As': As})
+#     df.to_csv(save_file, index=False)  
+#     print("Saved file to {}".format(save_file))
+  
+#   return tp, ts, Ap, As
