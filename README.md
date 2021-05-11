@@ -6,6 +6,7 @@ PS arrival time automatic picking with Kurtosis method
 
 * [Eileenmartin](https://github.com/eileenrmartin) lots of repo about DAS
 * Distpy (Schlumberger)
+* Ariel Lellouch, [DAS data](https://github.com/ariellellouch/DASDetection)
 
 ## Dependencies:
 * npTDMS (required version 0.25.0)
