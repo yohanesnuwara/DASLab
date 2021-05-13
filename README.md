@@ -1,16 +1,7 @@
 # DASLab
 
-<details>
-  <summary>
-    Plotting waveform of DAS data
-  </summary>
-</details>
-
-<details>
-  <summary>
-    PS arrival time automatic picking with Kurtosis method
-  </summary>
-</details>
+* Plotting waveform of DAS data
+* PS arrival autopicking with Kurtosis method
 
 ## References
 
