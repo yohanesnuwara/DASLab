@@ -48,5 +48,6 @@ def plotWaveformTraces(event, magnify=1, lpf=None, color='black', alpha=0.2,
   plt.ylim(ylim)
   plt.title(title, pad=10)
 
-lpf = None
-# lpf = {"f": 10, "fs": 1000/1}
+# Test plot
+# lpf = None
+# plotWaveformTraces(event.bc880, magnify=1e3, lpf=lpf, xlim=(13.8,15))
