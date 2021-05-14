@@ -5,6 +5,8 @@ import sys
 from pylab import *
 from nptdms import TdmsFile
 from signalprocessing import *
+import glob
+from datetime import datetime, timedelta
 
 plt.rcParams["font.size"] = 18
 
@@ -219,3 +221,55 @@ def load_segy_as_Fibers_change(segyfile,tdmsfile,nchannels=4992,nsamples=16000):
     print('Inside, data shape=',slx.data.shape)
     slx.tt=mycp(slx2020.tt[0:nsamples])
     return slx    
+
+def getInfoFromJMA(filepath, catalog_csv_path, utc=9, print_info=True):
+  """
+  Get information of a TDMS event file from a JMA catalog
+
+  INPUT:
+
+  filepath: Path to event file. The file must be in TDMS and have the following
+    structure "connected whole_UTC_210501_153000.000" for event that happened in
+    1 May 2021 at 15:30:00 UTC
+  catalog_csv_path: Path to JMA catalog CSV file. JMA has the following key
+    columns: "Date" and "Time"
+  utc: UTC conversion. Default is 9 (UTC+9) for Japan
+  print_info: Option to print info from the columns of catalog. Default is True.
+    If False, it will return a dataframe. 
+  """
+  files = os.path.splitext(os.path.basename(filepath))[0]
+
+  # Read catalog
+  df = pd.read_csv(catalog_csv_path)
+  catalog_date, catalog_time = df.Date.values, df.Time.values
+  catalog_dt = [catalog_date[i]+' '+catalog_time[i][:5]+':00' for i in range(len(catalog_time))] 
+  df['TDMSDatetime'] = catalog_dt # Add new column with catalog_dt
+
+  # Extract timestamp from filename string
+  timestamp = files[20:] # Omit connected whole bla bla ...
+  
+  # Convert string to datetime object
+  timestamp = datetime.strptime(timestamp, '%Y%m%d_%H%M%S.%f')
+
+  # Convert from UTC to local time
+  timestamp = timestamp + timedelta(hours=utc)
+
+  # Convert datetime object back to string
+  timestamp = timestamp.strftime("%d/%m/%Y %H:%M:%S")
+
+  # Find in catalog
+  try:
+    assert df.TDMSDatetime.str.contains(timestamp).any(), "no file"
+    df = df[df.TDMSDatetime==timestamp]  
+    if print_info==True:
+      for i in range(len(df)):
+        print('Info for file {}'.format(files))        
+        print('Date       : {}'.format(df.Date.values[i]))
+        print('Time       : {}'.format(df.Time.values[i]))
+        print('Magnitude  : {}'.format(df.Magnitude.values[i]))
+        print('Station    : {}'.format(df.Notes.values[i]))
+    if print_info==False:
+      return df
+  except:
+    print('No info for file {}. Check in catalog.'.format(files))
+    # return None
