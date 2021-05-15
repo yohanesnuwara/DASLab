@@ -833,6 +833,17 @@ def bc880_event(filepath,ar_denoise=(-90,-20),order=5,hicut=40,locut=2,
     
     return event1023
 
+def normalize(x, range=1):
+  """
+  Normalize waveform
+  """
+  # Get max absolute value
+  xmax = np.amax(np.abs(x))
+  # Normalize to desired range size
+  # xnorm = [float(val) / xmax * range for val in x]
+  xnorm = [[float(val) / xmax * range for val in row] for row in x]
+  return xnorm
+
 def difference(waveform1, waveform2):
   """
   Calculate difference between two waveforms
@@ -842,7 +853,7 @@ def difference(waveform1, waveform2):
   waveform: Waveform data. Can be used to compare two different types of 
     DAS, here the STC (straight cable), HWC (helically wound cable), 
     or BC (behind casing).
-    NOTE: shape (m,n) of waveform 1 <= (m,n) of waveform 2
+    NOTE: waveform 1 must be inside waveform 2. 
   
   OUTPUT:
 
