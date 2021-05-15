@@ -274,3 +274,19 @@ def getInfoFromJMA(filepath, catalog_csv_path, utc=9, print_info=True):
   except:
     print('No info for file {}. Check in catalog.'.format(files))
     # return None
+
+class TDMSEvent():
+  def add_attributes(self, data, tt, zz):
+    """
+    Create a TDMS object
+
+    INPUT:
+
+    data: 2D array with shape (m,n)
+    tt: 1D array of time samples with shape (m,)
+    zz: 1D array of offsets (distance/depth) with shape (n,)
+    """
+    self.data = data
+    self.tt = tt
+    self.zz = zz
+    return self
