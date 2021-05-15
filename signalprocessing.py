@@ -6,7 +6,7 @@ from pylab import *
 from nptdms import TdmsFile
 from TDMS_Functions import *
 from filter import *
-
+from scipy import interpolate
 
 
 def get_hhmmss(time):
@@ -832,3 +832,30 @@ def bc880_event(filepath,ar_denoise=(-90,-20),order=5,hicut=40,locut=2,
 #    init_zz(event1023.bc880)
     
     return event1023
+
+def difference(waveform1, waveform2):
+  """
+  Calculate difference between two waveforms
+
+  INPUT:
+
+  waveform: Waveform data. Can be used to compare two different types of 
+    DAS, here the STC (straight cable), HWC (helically wound cable), 
+    or BC (behind casing).
+    NOTE: shape (m,n) of waveform 1 <= (m,n) of waveform 2
+  
+  OUTPUT:
+
+  dif: Waveform difference
+  """
+  data1, data2 = waveform1.data, waveform2.data
+  x, y = waveform2.zz, waveform2.tt
+  xnew, ynew = waveform1.zz, waveform1.tt
+  f = interpolate.interp2d(x, y, data2)
+
+  # Interpolate event 2 using (t,z) of event 1
+  data2_i = f(xnew, ynew)
+
+  # Now both events have same shape, take difference
+  dif = data2_i - data1
+  return dif
