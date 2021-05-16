@@ -6,6 +6,7 @@ from pylab import *
 from nptdms import TdmsFile
 from TDMS_Functions import *
 from filter import *
+import scipy.fft as ft
 from scipy import interpolate
 
 
@@ -870,3 +871,40 @@ def difference(waveform1, waveform2):
   # Now both events have same shape, take difference
   dif = data2_i - data1
   return dif
+
+def fftSpectrum(x, fs, window=1, flim=(None,None)): 
+  """
+  Calculate and plot amplitude spectrum
+
+  INPUT:
+
+  x: Trace data (1D array)
+  fs: Sampling rate (milliseconds)
+  window: Rolling window to smooth spectrum. Default is 1 (no smoothening)
+  flim: Range of frequencies to plot. Default is None (up to Nyquist frequency)
+
+  OUTPUT:
+
+  frqs: Frequencies (1D array, Hz)
+  frqAmp: Amplitude (1D array)
+  Plot of spectrum
+  """
+  spectrum = ft.fft(x)
+  frqBins = int(spectrum.size/2)
+  frqAmp = np.absolute(spectrum[:frqBins]) 
+
+  # Rolling average to smooth spectrum
+  rolling = lambda x, w: np.convolve(x, np.ones(w), 'same') / w
+  frqAmp = rolling(frqAmp, window)
+  
+  # Frequencies of interest
+  NyquistFrq = fs/2.0 # the Nyquist frequency
+  frqs = np.linspace(0, NyquistFrq, num=frqBins)
+
+  plt.figure()
+  plt.plot(frqs, frqAmp, 'r')
+  plt.xlabel('Frequency [Hz]')
+  plt.ylabel('Amplitude')
+  plt.xlim(flim)
+  plt.title('Amplitude Spectrum')
+  return frqs, frqAmp
