@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+from signalprocessing import *
 
 def plotWaveformTraces(event, magnify=1, lpf=None, color='black', alpha=0.2, 
                        figsize=(7,5), xlim=(None, None), ylim=(None, None), 
