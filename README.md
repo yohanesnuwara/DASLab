@@ -11,6 +11,7 @@
 * [Eileenmartin](https://github.com/eileenrmartin) lots of repo about DAS
 * Distpy (Schlumberger)
 * Ariel Lellouch, [DAS data](https://github.com/ariellellouch/DASDetection)
+* [DAS anomaly detection ML](https://github.com/rroy1212/DAS_Anomaly_Detection)
 
 ## Dependencies:
 * npTDMS (required version 0.25.0)
