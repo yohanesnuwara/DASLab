@@ -129,3 +129,29 @@ def plotVSP(event, magnify=1, lpf=None, color='black', alpha=0.2,
 # Test plot
 # lpf = None
 # plotWaveformTraces(event.bc880, magnify=1e3, lpf=lpf, xlim=(13.8,15))
+
+def plotWaterfall(x, y, Z, cmap='jet', vmin=None, vmax=None, 
+                  xlim=(None,None), ylim=(None,None), title='Waterfall Plot',
+                  xlabel='Variable', ylabel='Channel'):
+  """
+  Plot waterfall of anything
+
+  INPUT:
+
+  x: 1D array data at x-axis with shape (m,)
+  y: 1D array data at y-axis with shape (n,). Usually y-axis is channels OR depths.
+  Z: 2D array to be plotted with shape (n,m)
+
+  OUTPUT:
+
+  Waterfall plot of Z
+  """
+  assert (len(x)==Z.shape[1]) & (len(y)==Z.shape[0]), 'Shape of data Z with x and y unmatched. Check each dimensions!'
+  plt.imshow(Z, aspect='auto', extent=(min(x), max(x), max(y), min(y)),
+             cmap=cmap, vmin=vmin, vmax=vmax)
+  plt.colorbar()
+  plt.xlim(xlim)
+  plt.ylim(ylim)
+  plt.title(title)
+  plt.xlabel(xlabel)
+  plt.ylabel(ylabel)
