@@ -7,8 +7,7 @@ from nptdms import TdmsFile
 from TDMS_Functions import *
 from filter import *
 import scipy.fft as ft
-from scipy import interpolate
-
+from scipy import interpolate, signal
 
 def get_hhmmss(time):
     hh=int((time-np.mod(time,3600))/3600)
@@ -908,3 +907,34 @@ def fftSpectrum(x, fs, window=1, flim=(None,None)):
   plt.xlim(flim)
   plt.title('Amplitude Spectrum')
   return frqs, frqAmp
+
+def stftSpectrogram(x, fs, cmap='jet', window='hann', nperseg=256, 
+                    noverlap=None, nfft=None, detrend=False, 
+                    return_onesided=True, boundary='zeros', padded=True):
+  """
+  Short Time Fourier Transform of a signal and plot Spectrogram
+
+  INPUT:
+
+  x: Trace data (1D array)
+  fs: Sampling frequency (=1/sampling rate in sec)
+  cmap: Matplotlib colormap
+
+  window, nperseg, noverlap, nfft, detrend, return_onesided, boundary, and
+  padded are inputs for "scipy.signal.stft" function. Read the docs for details:
+  SciPy docs: https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.stft.html
+
+  OUTPUT:
+
+  Plot of spectrogram
+  """
+  f, t, Zxx = signal.stft(x, fs=fs, window=window, nperseg=nperseg, 
+                          noverlap=noverlap, nfft=nfft, detrend=detrend, 
+                          return_onesided=return_onesided, boundary=boundary, 
+                          padded=padded)
+  plt.pcolormesh(t, f, np.abs(Zxx), cmap=cmap)
+  plt.colorbar()
+  plt.title('Spectrogram')
+  plt.xlabel('Time [sec]')
+  plt.ylabel('Frequency [Hz]')
+  return Zxx.shape
