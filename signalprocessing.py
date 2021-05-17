@@ -871,15 +871,17 @@ def difference(waveform1, waveform2):
   dif = data2_i - data1
   return dif
 
-def fftSpectrum(x, fs, window=1, flim=(None,None)): 
+def fftSpectrum(x, fs, window=1, plot=True, flim=(None,None)): 
   """
-  Calculate and plot amplitude spectrum
+  Calculate and 
+  amplitude spectrum
 
   INPUT:
 
   x: Trace data (1D array)
   fs: Sampling rate (milliseconds)
   window: Rolling window to smooth spectrum. Default is 1 (no smoothening)
+  plot: Option to plot spectrum. Default is True.
   flim: Range of frequencies to plot. Default is None (up to Nyquist frequency)
 
   OUTPUT:
@@ -899,13 +901,14 @@ def fftSpectrum(x, fs, window=1, flim=(None,None)):
   # Frequencies of interest
   NyquistFrq = fs/2.0 # the Nyquist frequency
   frqs = np.linspace(0, NyquistFrq, num=frqBins)
-
-  plt.figure()
-  plt.plot(frqs, frqAmp, 'r')
-  plt.xlabel('Frequency [Hz]')
-  plt.ylabel('Amplitude')
-  plt.xlim(flim)
-  plt.title('Amplitude Spectrum')
+  
+  if plot==True:
+      plt.figure()
+      plt.plot(frqs, frqAmp, 'r')
+      plt.xlabel('Frequency [Hz]')
+      plt.ylabel('Amplitude')
+      plt.xlim(flim)
+      plt.title('Amplitude Spectrum')
   return frqs, frqAmp
 
 def stftSpectrogram(x, fs, cmap='jet', window='hann', nperseg=256, 
