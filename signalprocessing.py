@@ -873,19 +873,18 @@ def difference(waveform1, waveform2):
 
 def fftSpectrum(x, fs, window=1, plot=True, flim=(None,None)): 
   """
-  Calculate and 
-  amplitude spectrum
-
+  Calculate and amplitude spectrum
+  
   INPUT:
-
+  
   x: Trace data (1D array)
   fs: Sampling rate (milliseconds)
   window: Rolling window to smooth spectrum. Default is 1 (no smoothening)
   plot: Option to plot spectrum. Default is True.
   flim: Range of frequencies to plot. Default is None (up to Nyquist frequency)
-
+  
   OUTPUT:
-
+  
   frqs: Frequencies (1D array, Hz)
   frqAmp: Amplitude (1D array)
   Plot of spectrum
