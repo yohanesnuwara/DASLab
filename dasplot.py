@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from signalprocessing import *
+from scipy import signal
 
 def plotWaveformTraces(event, magnify=1, lpf=None, color='black', alpha=0.2, 
                        figsize=(7,5), xlim=(None, None), ylim=(None, None), 
@@ -155,3 +156,34 @@ def plotWaterfall(x, y, Z, cmap='jet', vmin=None, vmax=None,
   plt.title(title)
   plt.xlabel(xlabel)
   plt.ylabel(ylabel)
+
+def stftSpectrogram(x, fs, cmap='jet', window='hann', nperseg=256, 
+                    noverlap=None, nfft=None, detrend=False, 
+                    return_onesided=True, boundary='zeros', padded=True):
+  """
+  Short Time Fourier Transform of a signal and plot Spectrogram
+
+  INPUT:
+
+  x: Trace data (1D array)
+  fs: Sampling frequency (=1/sampling rate in sec)
+  cmap: Matplotlib colormap
+
+  window, nperseg, noverlap, nfft, detrend, return_onesided, boundary, and
+  padded are inputs for "scipy.signal.stft" function. Read the docs for details:
+  SciPy docs: https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.stft.html
+
+  OUTPUT:
+
+  Plot of spectrogram
+  """
+  f, t, Zxx = signal.stft(x, fs=fs, window=window, nperseg=nperseg, 
+                          noverlap=noverlap, nfft=nfft, detrend=detrend, 
+                          return_onesided=return_onesided, boundary=boundary, 
+                          padded=padded)
+  plt.pcolormesh(t, f, np.abs(Zxx), cmap=cmap)
+  plt.colorbar()
+  plt.title('Spectrogram')
+  plt.xlabel('Time [sec]')
+  plt.ylabel('Frequency [Hz]')
+  return Zxx.shape
