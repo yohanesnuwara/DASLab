@@ -902,7 +902,7 @@ def fftSpectrum(x, fs, window=1, plot=True, flim=(None,None)):
   frqs = np.linspace(0, NyquistFrq, num=frqBins)
   
   if plot==True:
-      plt.figure()
+#       plt.figure()
       plt.plot(frqs, frqAmp, 'r')
       plt.xlabel('Frequency [Hz]')
       plt.ylabel('Amplitude')
