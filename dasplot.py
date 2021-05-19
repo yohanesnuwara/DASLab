@@ -187,3 +187,63 @@ def stftSpectrogram(x, fs, cmap='jet', window='hann', nperseg=256,
   plt.xlabel('Time [sec]')
   plt.ylabel('Frequency [Hz]')
   return Zxx.shape
+
+def fk(data, fs_int=0.001, chan_int=1, plot=False, vels=None, cmap='jet', 
+       vmin=None, vmax=None, xlim=(None,None), ylim=(None,None)):
+  """
+  Calculate FK (Frequency-Wavenumber) and plot
+
+  INPUT:
+
+  data: Data (2D array) has shape (m,n) where m: time samples, n: number of channels
+  fs_int: Time samples interval (seconds). Default is 0.001
+  chan_int: Channel interval (distance between 2 channels, m). Default is 1.
+  plot: Option to plot FK. Default is False, no plot is created.
+  vels: List of velocities to be plotted as contours
+
+  OUTPUT:
+
+  f: Frequencies (Hz)
+  k: Wavenumbers
+  sp: FK magnitude
+  Plot of F-K domain
+  """
+  m, n = data.shape
+
+  # Frequencies
+  nt = m # Number of time samples
+  nyq_f = nt//2
+  f = np.fft.fftfreq(nt, d=fs_int)[slice(0,nyq_f)]
+  
+  # Wavenumbers
+  nx = n # Number of channels
+  nyq_k = nx//2
+  k = np.fft.fftshift(np.fft.fftfreq(nx, d=chan_int))
+  
+  # Frequency-wavenumber power spectral density
+  A = np.fft.fftshift(np.fft.fft2(data)[:,slice(0,nyq_f)],axes=0)
+  sp2 = 2*(np.abs(A)**2) / (nt**2)
+  sp2 = 10*np.log10(sp2)
+
+  # Results
+  k, sp2 = k[2:], sp2.T
+
+  if plot==True:
+    # Plot FK
+    plt.imshow(sp2, extent=[max(k), min(k), min(f), max(f)], 
+               aspect='auto',cmap=cmap, origin='lower', vmin=vmin, vmax=vmax)
+    h = plt.colorbar()
+    h.set_label('Power Spectra [dB]')
+
+    if vels!=None:
+      # Plot velocities contours
+      for c in vels:
+        plt.plot(k, k*c, '--', label='{} m/s'.format(c))
+      plt.legend(fontsize=10)
+
+    plt.title('F-K Plot')
+    plt.ylabel('Frequency [Hz]')
+    plt.xlabel('Wavenumber [1/m]')
+    plt.xlim(xlim)
+    plt.ylim(ylim)
+  return f, k, sp2
