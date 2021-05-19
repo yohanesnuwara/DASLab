@@ -833,16 +833,37 @@ def bc880_event(filepath,ar_denoise=(-90,-20),order=5,hicut=40,locut=2,
     
     return event1023
 
-def normalize(x, range=1):
+def normalize(x, method='MinMaxScaler'):
   """
   Normalize waveform
+
+  INPUT:
+
+  x: Data (2D array)
+  method: Method options: 'MinMaxScaler', 'LogNorm', 'PowerTransformer', 'StandardScaler'
+
+  OUTPUT:
+
+  Normalized 2D array
   """
-  # Get max absolute value
-  xmax = np.amax(np.abs(x))
-  # Normalize to desired range size
-  # xnorm = [float(val) / xmax * range for val in x]
-  xnorm = [[float(val) / xmax * range for val in row] for row in x]
-  return xnorm
+  if method=='MinMaxScaler':
+    # Note that most min-max scaling algorithms (including Sklearn) only
+    # scale from 0 to 1. The following has been adapted for negative input 
+    # such that it would scale from -1 to 1. 
+    xmax = np.amax(np.abs(x))
+    range = 1
+    return np.array([[float(val) / xmax * range for val in row] for row in x])
+  if method=='LogNorm':
+    return np.array([[np.log10(val) if val>0 else -np.log10(np.abs(val)) for val in row] for row in x])
+  else:
+    # Scikit-Learn transformers
+    from sklearn.preprocessing import PowerTransformer, StandardScaler
+    if method=='StandardScaler':
+      scale = StandardScaler()
+    if method=='PowerTransformer':
+      scale = PowerTransformer()
+    return scale.fit_transform(x)
+
 
 def difference(waveform1, waveform2):
   """
