@@ -892,15 +892,20 @@ def difference(waveform1, waveform2):
   dif = data2_i - data1
   return dif
 
-def fftSpectrum(x, fs, window=1, plot=True, flim=(None,None)): 
+def fftSpectrum(x, fs=1/0.001, window=1, output='as', output_unit='true_amp',
+                plot=True, flim=(None,None)): 
   """
   Calculate and amplitude spectrum
   
   INPUT:
   
   x: Trace data (1D array)
-  fs: Sampling rate (milliseconds)
+  fs: Sampling rate (=1/sampling interval)
   window: Rolling window to smooth spectrum. Default is 1 (no smoothening)
+  output: 'fft' for amplitude spectrum, 'ps' for power spectrum, 'psd' for 
+    power spectral density. Default is 'fft'.
+  output_unit: 'true_amp' for true amplitude, 'db' for decibel. Default is 
+    'true_amp'
   plot: Option to plot spectrum. Default is True.
   flim: Range of frequencies to plot. Default is None (up to Nyquist frequency)
   
@@ -921,15 +926,84 @@ def fftSpectrum(x, fs, window=1, plot=True, flim=(None,None)):
   # Frequencies of interest
   NyquistFrq = fs/2.0 # the Nyquist frequency
   frqs = np.linspace(0, NyquistFrq, num=frqBins)
-  
+
+  if output=='as':
+    frqAmp = frqAmp
+  if output=='ps':
+    nt = len(x)
+    frqAmp = 2*(np.abs(frqAmp)**2) / (nt**2)  
+  if output=='psd':
+    nt, dt = len(x), 1/fs
+    frqAmp = 2*(np.abs(frqAmp)**2) / (nt**2) * dt * nt
+
+  if output_unit=='true_amp':
+    frqAmp = frqAmp
+  if output_unit=='db':
+    frqAmp = 10*np.log10(frqAmp)   
+
   if plot==True:
-#       plt.figure()
-      plt.plot(frqs, frqAmp, 'r')
-      plt.xlabel('Frequency [Hz]')
-      plt.ylabel('Amplitude')
-      plt.xlim(flim)
-      plt.title('Amplitude Spectrum')
+    if output=='as':
+      title = 'Amplitude Spectrum'
+      xscale = 'linear'
+    if output=='ps':
+      title = 'Power Spectrum'
+      xscale = 'log'
+    if output=='psd':
+      title = 'Power Spectral Density'
+      xscale = 'log'
+
+    if output_unit=='true_amp':
+      unit = ''
+    if output_unit=='db':
+      unit = '[db]'
+ 
+    plt.plot(frqs, frqAmp, 'r')
+    plt.xscale(xscale)
+    plt.xlabel('Frequency [Hz]')
+    plt.ylabel('Amplitude '+unit)
+    plt.xlim(flim)
+    plt.title(title)    
+
   return frqs, frqAmp
+
+# def fftSpectrum(x, fs, window=1, plot=True, flim=(None,None)): 
+#   """
+#   Calculate and amplitude spectrum
+  
+#   INPUT:
+  
+#   x: Trace data (1D array)
+#   fs: Sampling rate (milliseconds)
+#   window: Rolling window to smooth spectrum. Default is 1 (no smoothening)
+#   plot: Option to plot spectrum. Default is True.
+#   flim: Range of frequencies to plot. Default is None (up to Nyquist frequency)
+  
+#   OUTPUT:
+  
+#   frqs: Frequencies (1D array, Hz)
+#   frqAmp: Amplitude (1D array)
+#   Plot of spectrum
+#   """
+#   spectrum = ft.fft(x)
+#   frqBins = int(spectrum.size/2)
+#   frqAmp = np.absolute(spectrum[:frqBins]) 
+
+#   # Rolling average to smooth spectrum
+#   rolling = lambda x, w: np.convolve(x, np.ones(w), 'same') / w
+#   frqAmp = rolling(frqAmp, window)
+  
+#   # Frequencies of interest
+#   NyquistFrq = fs/2.0 # the Nyquist frequency
+#   frqs = np.linspace(0, NyquistFrq, num=frqBins)
+  
+#   if plot==True:
+# #       plt.figure()
+#       plt.plot(frqs, frqAmp, 'r')
+#       plt.xlabel('Frequency [Hz]')
+#       plt.ylabel('Amplitude')
+#       plt.xlim(flim)
+#       plt.title('Amplitude Spectrum')
+#   return frqs, frqAmp
 
 # def stftSpectrogram(x, fs, cmap='jet', window='hann', nperseg=256, 
 #                     noverlap=None, nfft=None, detrend=False, 
