@@ -147,7 +147,7 @@ def plotWaterfall(x, y, Z, cmap='jet', vmin=None, vmax=None,
 
   Waterfall plot of Z
   """
-  assert (len(x)==Z.shape[1]) & (len(y)==Z.shape[0]), 'Shape of data Z with x and y unmatched. Check each dimensions!'
+#   assert (len(x)==Z.shape[1]) & (len(y)==Z.shape[0]), 'Shape of data Z with x and y unmatched. Check each dimensions!'
   plt.imshow(Z, aspect='auto', extent=(min(x), max(x), max(y), min(y)),
              cmap=cmap, vmin=vmin, vmax=vmax)
   plt.colorbar()
