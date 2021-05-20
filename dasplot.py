@@ -133,7 +133,7 @@ def plotVSP(event, magnify=1, lpf=None, color='black', alpha=0.2,
 
 def plotWaterfall(x, y, Z, cmap='jet', vmin=None, vmax=None, 
                   xlim=(None,None), ylim=(None,None), title='Waterfall Plot',
-                  xlabel='Variable', ylabel='Channel'):
+                  xlabel='Variable', ylabel='Channel', clabel='Data'):
   """
   Plot waterfall of anything
 
@@ -147,10 +147,10 @@ def plotWaterfall(x, y, Z, cmap='jet', vmin=None, vmax=None,
 
   Waterfall plot of Z
   """
-#   assert (len(x)==Z.shape[1]) & (len(y)==Z.shape[0]), 'Shape of data Z with x and y unmatched. Check each dimensions!'
   plt.imshow(Z, aspect='auto', extent=(min(x), max(x), max(y), min(y)),
              cmap=cmap, vmin=vmin, vmax=vmax)
-  plt.colorbar()
+  h = plt.colorbar()
+  h.set_label(clabel)
   plt.xlim(xlim)
   plt.ylim(ylim)
   plt.title(title)
@@ -182,7 +182,8 @@ def stftSpectrogram(x, fs, cmap='jet', window='hann', nperseg=256,
                           return_onesided=return_onesided, boundary=boundary, 
                           padded=padded)
   plt.pcolormesh(t, f, np.abs(Zxx), cmap=cmap)
-  plt.colorbar()
+  h = plt.colorbar()
+  h.set_label('Amplitude')
   plt.title('Spectrogram')
   plt.xlabel('Time [sec]')
   plt.ylabel('Frequency [Hz]')
