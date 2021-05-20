@@ -145,32 +145,32 @@ def kurtosisFindArrival(event, no_trace, cut_trace, win, lpf=None,
 
   return t, A
 
-def kurtosisHeatmap(kurt, time_axis, n_traces, cmap='jet', figsize=(7,5),
-                    vmin=None, vmax=None):
-  """
-  Plot heatmap of kurtosis of all traces
+# def kurtosisHeatmap(kurt, time_axis, n_traces, cmap='jet', figsize=(7,5),
+#                     vmin=None, vmax=None):
+#   """
+#   Plot heatmap of kurtosis of all traces
 
-  INPUT:
+#   INPUT:
 
-  kurt: 2D array of calculated kurtosis (output of running "pickAllTraces")
-  time_axis: Time samples (list)
-  n_traces: Number of traces 
-  """
+#   kurt: 2D array of calculated kurtosis (output of running "pickAllTraces")
+#   time_axis: Time samples (list)
+#   n_traces: Number of traces 
+#   """
 
-  # Plot kurtosis heatmap
-  plt.figure(figsize=figsize)
-  plt.imshow(kurt, aspect='auto', extent=(time_axis[0], time_axis[-1], n_traces-1, 0), 
-            cmap=cmap, vmin=vmin, vmax=vmax)
-  plt.colorbar()  
+#   # Plot kurtosis heatmap
+#   plt.figure(figsize=figsize)
+#   plt.imshow(kurt, aspect='auto', extent=(time_axis[0], time_axis[-1], n_traces-1, 0), 
+#             cmap=cmap, vmin=vmin, vmax=vmax)
+#   plt.colorbar()  
 
-  plt.title("Kurtosis")
-  plt.xlabel("Time [sec]")
-  plt.ylabel("Trace")  
+#   plt.title("Kurtosis")
+#   plt.xlabel("Time [sec]")
+#   plt.ylabel("Trace")  
 
-  # if plot_arrival==True:
-  #   # Plot arrivals
-  #   plt.scatter(np.array(tp), np.arange(n_traces), marker='|', s=1, color='red')
-  #   plt.scatter(np.array(ts), np.arange(n_traces), marker='|', s=1, color='red') 
+#   # if plot_arrival==True:
+#   #   # Plot arrivals
+#   #   plt.scatter(np.array(tp), np.arange(n_traces), marker='|', s=1, color='red')
+#   #   plt.scatter(np.array(ts), np.arange(n_traces), marker='|', s=1, color='red') 
 
 def pickAllTraces(event, cut_trace, win, lpf=None, window=100,
                   save_file=None):
