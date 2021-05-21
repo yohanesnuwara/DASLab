@@ -7,6 +7,7 @@
 
 ## Useful bags
 
+* [DAS technical explanations](http://docs.energistics.org/PRODML/PRODML_TOPICS/PRO-DAS-000-016-0-C-sv2000.html)
 * [Seismo-Live](http://seismo-live.org/)
 * [Eileenmartin](https://github.com/eileenrmartin) lots of repo about DAS
 * Distpy (Schlumberger)
