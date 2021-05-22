@@ -864,6 +864,26 @@ def normalize(x, method='MinMaxScaler'):
       scale = PowerTransformer()
     return scale.fit_transform(x)
 
+def normalize1D(trace, method='MinMaxScaler'):
+  """
+  Normalize 1D waveform, or trace
+
+  NOTE: The other function "normalize" is for 2D data. This function has been
+        adjusted for 1D data (or single-channel).
+
+  INPUT:
+
+  trace: Trace data (1D array)
+  method: Methods of data transformation. See "help(normalize)"
+
+  OUTPUT:
+
+  Normalized trace (1D array)
+  """
+  tr = np.reshape(trace, (-1,1))
+  tr_norm = normalize(tr, method)
+  tr_norm = np.ndarray.flatten(tr_norm)
+  return tr_norm
 
 def difference(waveform1, waveform2):
   """
