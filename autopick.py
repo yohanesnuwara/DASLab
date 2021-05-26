@@ -25,31 +25,31 @@ def kurtosis(data, window=100):
     kurt.append(k)
   return kurt
 
-def cutTrace(event, no_trace, cut_trace):
-  """
-  Cut trace given a specified window
+# def cutTrace(event, no_trace, cut_trace):
+#   """
+#   Cut trace given a specified window
 
-  INPUT:
+#   INPUT:
 
-  event: Event data (TDMS object)
-  no_trace: Trace number
-  cut_trace: Cut trace window. Specify as tuple (start,end) with start is the
-    start time and end is the end time
+#   event: Event data (TDMS object)
+#   no_trace: Trace number
+#   cut_trace: Cut trace window. Specify as tuple (start,end) with start is the
+#     start time and end is the end time
 
-  OUTPUT:
+#   OUTPUT:
 
-  tcut: Trace time samples after cut operation
-  ycut: Amplitude after cut operation
-  """
-  # Cut trace 
-  t, z = event.tt, event.zz # axes
-  index_cut = [int(np.where(t==cut_trace[0])[0]), int(np.where(t==cut_trace[1])[0])]
-  tcut = t[index_cut[0]:index_cut[1]]
+#   tcut: Trace time samples after cut operation
+#   ycut: Amplitude after cut operation
+#   """
+#   # Cut trace 
+#   t, z = event.tt, event.zz # axes
+#   index_cut = [int(np.where(t==cut_trace[0])[0]), int(np.where(t==cut_trace[1])[0])]
+#   tcut = t[index_cut[0]:index_cut[1]]
 
-  fibre_data = event.data
-  y = fibre_data[:,no_trace] 
-  ycut = y[index_cut[0]:index_cut[1]]  
-  return tcut, ycut
+#   fibre_data = event.data
+#   y = fibre_data[:,no_trace] 
+#   ycut = y[index_cut[0]:index_cut[1]]  
+#   return tcut, ycut
 
 def kurtosisFindArrival(event, no_trace, cut_trace, win, lpf=None,
                           window=100, plot=False, pick_color=None, title=None):
