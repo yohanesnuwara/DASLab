@@ -157,7 +157,7 @@ def plotWaterfall(x, y, Z, cmap='jet', vmin=None, vmax=None,
   plt.xlabel(xlabel)
   plt.ylabel(ylabel)
 
-def stftSpectrogram(x, fs, cmap='jet', window='hann', nperseg=256, 
+def stftSpectrogram(x, fs, plot=True, cmap='jet', window='hann', nperseg=256, 
                     noverlap=None, nfft=None, detrend=False, 
                     return_onesided=True, boundary='zeros', padded=True):
   """
@@ -174,20 +174,21 @@ def stftSpectrogram(x, fs, cmap='jet', window='hann', nperseg=256,
   SciPy docs: https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.stft.html
 
   OUTPUT:
-
+  
   Plot of spectrogram
   """
   f, t, Zxx = signal.stft(x, fs=fs, window=window, nperseg=nperseg, 
                           noverlap=noverlap, nfft=nfft, detrend=detrend, 
                           return_onesided=return_onesided, boundary=boundary, 
                           padded=padded)
-  plt.pcolormesh(t, f, np.abs(Zxx), cmap=cmap)
-  h = plt.colorbar()
-  h.set_label('Amplitude')
-  plt.title('Spectrogram')
-  plt.xlabel('Time [sec]')
-  plt.ylabel('Frequency [Hz]')
-  return Zxx.shape
+  if plot==True:
+    plt.pcolormesh(t, f, np.abs(Zxx), cmap=cmap)
+    h = plt.colorbar()
+    h.set_label('Amplitude')
+    plt.title('Spectrogram')
+    plt.xlabel('Time [sec]')
+    plt.ylabel('Frequency [Hz]')
+  return f, t, np.abs(Zxx)
 
 def fk(data, fs_int=0.001, chan_int=1, plot=False, vels=None, cmap='jet', 
        vmin=None, vmax=None, xlim=(None,None), ylim=(None,None)):
