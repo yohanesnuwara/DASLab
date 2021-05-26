@@ -174,7 +174,9 @@ def stftSpectrogram(x, fs, plot=True, cmap='jet', window='hann', nperseg=256,
   SciPy docs: https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.stft.html
 
   OUTPUT:
-  
+  f: Frequencies
+  t: Time samples
+  Zxx: Absolute value of computed spectrum
   Plot of spectrogram
   """
   f, t, Zxx = signal.stft(x, fs=fs, window=window, nperseg=nperseg, 
@@ -190,7 +192,7 @@ def stftSpectrogram(x, fs, plot=True, cmap='jet', window='hann', nperseg=256,
     plt.ylabel('Frequency [Hz]')
   return f, t, np.abs(Zxx)
 
-def fk(data, fs_int=0.001, chan_int=1, plot=False, vels=None, cmap='jet', 
+def fk(data, fs_int=0.001, chan_int=1, plot=True, vels=None, cmap='jet', 
        vmin=None, vmax=None, xlim=(None,None), ylim=(None,None)):
   """
   Calculate FK (Frequency-Wavenumber) and plot
