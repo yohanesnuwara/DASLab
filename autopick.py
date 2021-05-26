@@ -1,29 +1,101 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+from obspy.signal.trigger import recursive_sta_lta
 from filter import *
 
-def kurtosis(data, window=100):
+def kurtosis(data_tr, window=100):
   """ 
-  Calculate kurtosis over a specified window
+  Kurtosis method
 
   INPUT:
 
-  data: Data (in seismic context: amplitudes), 1D array
-  window: Kurtosis calculation window. Default is 100.
+  data_tr: Trace data, 1D array
+  window: Sliding/rolling window. Default is 100.
 
   OUTPUT:
 
-  kurt: Kurtosis value, 1D array
+  Kurtosis value, 1D array
   """
   kurt = []
-  for i in range(len(data)):
-    a = data[i:i+window]
-    std, mean = np.std(data), np.mean(data)
+  for i in range(len(data_tr)):
+    a = data_tr[i:i+window]
+    std, mean = np.std(data_tr), np.mean(data_tr)
     y = np.sum((a - mean)**4) / window
     k = y / std**4
     kurt.append(k)
   return kurt
+
+def AIC(data_tr):
+  """
+  Akaike Information Criterion Method
+  
+  INPUT:
+
+  data_tr: Trace data, 1D array
+
+  OUTPUT:
+
+  AIC value, 1D array  
+  """
+  len_data = len(data_tr)
+
+  # X Axis length
+  x_axis = np.arange(len_data)
+  len_x = len(x_axis)
+
+  # AIC Formula
+  AIC = [(i * np.log(np.var(data_tr[0:i]))) +\
+         ((len_data - i - 1) (np.log(np.var(data_tr[i + 1: len_data]))))
+         for i in range(len_data-1)]  
+
+  # for i in range(0, len_data - 1):
+  #   a = i * np.log(np.var(data_tr[0:i]))
+  #   b = (len_data - i - 1) * (np.log(np.var(data_tr[i + 1: len_data])))
+  #   AIC[i] = a + b
+  len_AIC = len(AIC)
+
+  # Differential AIC with time series
+  Diff_AIC = [((AIC[i + 1] - AIC[i])/(x_axis[i+1] - (x_axis[i])))**2 
+              for i in range(len_AIC-1)]
+
+  Diff_AIC = [0 if (Diff_AIC[i] == np.inf) else Diff_AIC[i] for i in range(len_AIC-1)]
+
+  # Diff_AIC = np.zeros((len_AIC))
+  # for i in range(len_AIC - 1):
+  #     Diff_AIC[i] = ((AIC[i + 1] - AIC[i])/(x_axis[i+1] - (x_axis[i])))**2
+
+  # for i in range(len_AIC - 1):
+  #     if Diff_AIC[i] == np.inf:
+  #         Diff_AIC[i] = 0  
+
+  new_AIC = np.nan_to_num(Diff_AIC)
+  return new_AIC
+
+def STA_LTA(data_tr, nsta=int(5*50), nlta=(10*200)):
+  """
+  Short-Term Average and Long-Term Average Ratio Method
+  
+  INPUT:
+
+  data_tr: Trace data, 1D array
+  nsta: Length of short time average window in samples
+  nlta: Length of long time average window in samples
+
+  OUTPUT:
+
+  RSL: STA/LTA value, 1D array  
+  """
+  RSL = recursive_sta_lta(data_tr, nsta, nlta)
+
+  # max_RSL = RSL.max()
+  # len_tr = len(data_tr)
+  # norm_RSL = np.zeros((len_tr))
+  # for i in range(len_tr - 1):
+  #   norm_RSL[i] = RSL[i] / max_RSL  
+  return RSL
+
+
 
 # def cutTrace(event, no_trace, cut_trace):
 #   """
