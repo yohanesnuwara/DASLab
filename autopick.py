@@ -45,31 +45,31 @@ def AIC(data_tr):
   len_x = len(x_axis)
 
   # AIC Formula
-  AIC = [(i * np.log(np.var(data_tr[0:i]))) +\
-         ((len_data - i - 1) (np.log(np.var(data_tr[i + 1: len_data]))))
-         for i in range(len_data-1)]  
+  AIC = np.zeros((len_data))
 
-  # for i in range(0, len_data - 1):
-  #   a = i * np.log(np.var(data_tr[0:i]))
-  #   b = (len_data - i - 1) * (np.log(np.var(data_tr[i + 1: len_data])))
-  #   AIC[i] = a + b
+  for i in range(0, len_data - 1):
+    a = i * np.log(np.var(data_tr[0:i]))
+    b = (len_data - i - 1) * (np.log(np.var(data_tr[i + 1: len_data])))
+    AIC[i] = a + b
   len_AIC = len(AIC)
 
   # Differential AIC with time series
-  Diff_AIC = [((AIC[i + 1] - AIC[i])/(x_axis[i+1] - (x_axis[i])))**2 
-              for i in range(len_AIC-1)]
+  Diff_AIC = np.zeros((len_AIC))
+  for i in range(len_AIC - 1):
+      Diff_AIC[i] = ((AIC[i + 1] - AIC[i])/(x_axis[i+1] - (x_axis[i])))**2
 
-  Diff_AIC = [0 if (Diff_AIC[i] == np.inf) else Diff_AIC[i] for i in range(len_AIC-1)]
-
-  # Diff_AIC = np.zeros((len_AIC))
-  # for i in range(len_AIC - 1):
-  #     Diff_AIC[i] = ((AIC[i + 1] - AIC[i])/(x_axis[i+1] - (x_axis[i])))**2
-
-  # for i in range(len_AIC - 1):
-  #     if Diff_AIC[i] == np.inf:
-  #         Diff_AIC[i] = 0  
+  for i in range(len_AIC - 1):
+      if Diff_AIC[i] == np.inf:
+          Diff_AIC[i] = 0
 
   new_AIC = np.nan_to_num(Diff_AIC)
+  # max_diff_data = new_AIC.max()
+  # norm_AIC = np.zeros((len_AIC))
+
+  # for i in range(len_AIC - 1):
+  #     norm_AIC[i] = Diff_AIC[i] / max_diff_data
+
+  # new_Norm_AIC = np.nan_to_num(norm_AIC)
   return new_AIC
 
 def STA_LTA(data_tr, nsta=int(5*50), nlta=(10*200)):
