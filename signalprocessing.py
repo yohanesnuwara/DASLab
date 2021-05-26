@@ -986,6 +986,49 @@ def fftSpectrum(x, fs=1/0.001, window=1, output='as', output_unit='true_amp',
 
   return frqs, frqAmp
 
+def cutData1D(t, data, cut_trace):
+  """
+  Cut 1D data along time axis
+
+  INPUT:
+
+  t: Time samples (1D array)
+  data: Trace data (1D array)
+  cut_trace: Cut window in seconds; tuple of (start_time, end_time)
+
+  OUTPUT:
+
+  t_cut: Time samples after cut
+  data_cut: 1D data after cut
+  """
+  id0, id1 = [int(np.where(t==cut_trace[0])[0]), int(np.where(t==cut_trace[1])[0])]
+  tcut = t[id0:id1]
+  data_cut = data[id0:id1]
+  return tcut, data_cut
+
+def cutData2D(t, data, cut_trace):
+  """
+  Cut 2D data along time axis
+
+  INPUT:
+
+  t: Time samples (1D array)
+  data: 2D data with dimension (nt,nz); nt number of time samples, nz number of
+    channels
+  cut_trace: Cut window in seconds; tuple of (start_time, end_time)
+
+  OUTPUT:
+
+  t_cut: Time samples after cut
+  data_cut: 2D data after cut
+  """
+  nt, _ = data.shape
+  assert nt==len(t), "Dimension of time axis of t and data UNMATCHED"
+  id0, id1 = [int(np.where(t==cut_trace[0])[0]), int(np.where(t==cut_trace[1])[0])]
+  tcut = t[id0:id1]
+  data_cut = data[id0:id1,:]
+  return tcut, data_cut
+
 # def fftSpectrum(x, fs, window=1, plot=True, flim=(None,None)): 
 #   """
 #   Calculate and amplitude spectrum
