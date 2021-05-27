@@ -3,6 +3,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from obspy.signal.trigger import recursive_sta_lta
 from filter import *
+import warnings
+warnings.filterwarnings("ignore", category=RuntimeWarning) 
 
 def kurtosis(data_tr, window=100):
   """ 
