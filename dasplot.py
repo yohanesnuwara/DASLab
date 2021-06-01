@@ -251,3 +251,28 @@ def fk(data, fs_int=0.001, chan_int=1, plot=True, vels=None, cmap='jet',
     plt.xlim(xlim)
     plt.ylim(ylim)
   return f, k, sp2
+
+def plotBasemap(lat0, lat1, lon0, lon1, latgrid, longrid, 
+                projection='merc', lat_ts=10, resolution='c',
+                base_color='lightblue', land_color='lightgreen', lake_color='lightblue',
+                figsize=(7,7), title='Map'):
+  """
+  Plot basemap
+  """
+  from mpl_toolkits.basemap import Basemap
+  
+  plt.figure(figsize=figsize)
+
+  # Plot basemap
+  m = Basemap(projection=projection, llcrnrlat=lat0, urcrnrlat=lat1,
+              llcrnrlon=lon0, urcrnrlon=lon1, lat_ts=lat_ts, resolution=resolution)
+  m.drawcoastlines()
+  m.fillcontinents(color=land_color, lake_color=lake_color)
+  m.drawmapboundary(fill_color=base_color)
+
+  # Draw parallels and meridians (lat lon grids)
+  m.drawparallels(latgrid, labels=[False,True,True,False])
+  m.drawmeridians(longrid, labels=[True,False,False,True])  
+
+  plt.title(title)
+  return m
