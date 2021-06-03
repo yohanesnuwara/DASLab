@@ -38,7 +38,7 @@ def readJMA_csv(filepath):
   Pandas dataframe of catalogued events, columns are: 'index', 'Date', 'Time',
   'Lat', 'Lon', 'Dep', 'Mag', 'Loc'
   """
-  df = pd.read_csv(filepath, header=0, dtype=str,
+  df = pd.read_csv(filepath, header=0, dtype=str, index_col=False,
                   names=['Date', 'Time', 'OTerr', 'Lat', 'LatErr', 'Lon', 'LonErr',
                          'Dep', 'DepErr', 'Mag', 'Loc'])
   df = df.fillna('nan')
