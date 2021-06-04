@@ -5,6 +5,22 @@ from datetime import datetime, timedelta
 import glob
 import pickle
 
+def savePkl(data, filename):
+  """
+  Save data to Pickle
+
+  INPUT:
+
+  data: Numpy array
+  filename: Name of file to be saved (extension .pkl)
+
+  OUTPUT:
+
+  Pickle file
+  """
+  with open(filename,'wb') as f:
+    pickle.dump(data, f)
+
 def loadPkl(filepath):
   """
   Read Pickle file
