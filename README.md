@@ -10,6 +10,9 @@
 * **DASCompare**: Using waveform visualization, STFT spectogram, and f-x waterfall plot to compare the difference in straight and helical DAS cable recordings.
 * **DASContinuous**: Applying the automated picking algorithms on a simulated continuous DAS recordings.
 * **DASDiagnostics**: Applying trace normalization and spectral analysis using f-x waterfall plot and F-K filter plot.
+* **DASCatalogMap**
+* **DASDetectivity**
+* **DASSignalNoise**
 
 ## Useful bags
 
