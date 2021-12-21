@@ -10,10 +10,16 @@
 * **DASCompare**: Using waveform visualization, STFT spectogram, and f-x waterfall plot to compare the difference in straight and helical DAS cable recordings.
 * **DASContinuous**: Applying the automated picking algorithms on a simulated continuous DAS recordings.
 * **DASDiagnostics**: Applying trace normalization and spectral analysis using f-x waterfall plot and F-K filter plot.
-* **DASCatalogMap**
-* **DASDetectivity**
-* **DASSignalNoise**
+* **DASCatalogMap**: Retrieving information from JMA catalog into Pandas DataFrame and plotting events on a map and polar plot.
+* **DASDetectivity**: Analyzing the detectivity of DAS to natural earthquakes based on picked arrival times, amplitude or Kurtosis plot versus epicentral distance, and azimuthal dependence on detectivity on polar plot. 
+* **DASSignalNoise**: Calculation of background noise level, signal-to-noise ratio (SNR) analysis, and to explore trace operations such as stacking and integration to improve SNR.
 
+## Dependencies:
+* [npTDMS](https://pypi.org/project/npTDMS/0.25.0/): For reading TDMS files (**required version 0.25.0**)
+* [ObsPy](https://pypi.org/project/obspy/): For seismological operations 
+* [Utm](https://pypi.org/project/utm/): For converting lat-long to UTM coordinates
+
+<!--
 ## Useful bags
 
 * [Global subsea fiber optic network map](https://submarine-cable-map-2019.telegeography.com/)
@@ -24,8 +30,3 @@
 * Distpy (Schlumberger)
 * Ariel Lellouch, [DAS data](https://github.com/ariellellouch/DASDetection)
 * [DAS anomaly detection ML](https://github.com/rroy1212/DAS_Anomaly_Detection)
-
-## Dependencies:
-* [npTDMS](https://pypi.org/project/npTDMS/0.25.0/): For reading TDMS files (**required version 0.25.0**)
-* [ObsPy](https://pypi.org/project/obspy/): For seismological operations 
-* [Utm](https://pypi.org/project/utm/): For converting lat-long to UTM coordinates
