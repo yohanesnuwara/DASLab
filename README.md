@@ -2,6 +2,8 @@
   <img src="https://user-images.githubusercontent.com/51282928/146875829-05c3c234-35df-4646-8d17-1435dab6996e.png" width="200" />
 </p>
 
+[![DOI](https://zenodo.org/badge/365670829.svg)](https://zenodo.org/badge/latestdoi/365670829)
+
 **What is DAS?** DAS, stands for Distributed Acoustic Sensing, is an emerging geophysical technology that uses laser light scattering inside fiber-optic cables to measure dynamic strain and seismic waves. To learn more detailed about how the sensing works, I recommend this [blog](https://motionsignaltechnologies.com/what-is-das-and-what-is-it-measuring/). DAS is widely applied in many monitoring and profiling applications, such as earthquake (seismology), seismic data acquisition and reservoir monitoring of oil fields, construction, wind turbine, chemical tank storage, dam, and highways. Here, I wrote a comprehensive [article](https://www.linkedin.com/pulse/distributed-acoustic-sensing-answer-sustainability-quest-nuwara/) about DAS. Many believe, like [Bona and Pevzner (2018)](https://www.tandfonline.com/doi/abs/10.1071/ASEG2018abW8_4F), that DAS has many advantages such as consistent amplitudes, less tube wave, clearer reflections, faster and cheaper cable acquisition.  
 
 <p align="center">
