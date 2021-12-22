@@ -8,7 +8,7 @@
   <img src="https://user-images.githubusercontent.com/51282928/146873724-264c0aa5-ba7f-41ae-87c2-f88a03c534ba.png" width="400" />
 </p>
 
-**DASLab** is a repository that contains programs, modules, and functions for analysis and processing of DAS fiber-optic data that I wrote during my research with the [CO2 Storage Research Group at RITE](http://www.rite.or.jp/co2storage/en/) in Japan. 
+**DASLab** is a repository that contains programs, modules, and functions for analysis and processing of DAS fiber-optic data that I developed during my research with the [CO2 Storage Research Group at RITE](http://www.rite.or.jp/co2storage/en/) in Japan. 
 
 ## Check out the notebooks to see how we make use of DASLab
 
