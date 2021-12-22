@@ -2,7 +2,7 @@
   <img src="https://user-images.githubusercontent.com/51282928/146875829-05c3c234-35df-4646-8d17-1435dab6996e.png" width="200" />
 </p>
 
-**What the heck is DAS?** DAS, stands for Distributed Acoustic Sensing, is an emerging geophysical technology that uses laser light scattering inside fiber-optic cables to measure dynamic strain and seismic waves. To learn more detailed about how the sensing works, I recommend this [blog](https://motionsignaltechnologies.com/what-is-das-and-what-is-it-measuring/). DAS is widely applied in many monitoring and profiling applications, such as earthquake (seismology), seismic data acquisition and reservoir monitoring of oil fields, construction, wind turbine, chemical tank storage, dam, and highways. Here, I wrote a comprehensive [article](https://www.linkedin.com/pulse/distributed-acoustic-sensing-answer-sustainability-quest-nuwara/) about DAS. Many believe, like [Bona and Pevzner (2018)](https://www.tandfonline.com/doi/abs/10.1071/ASEG2018abW8_4F), that DAS has many advantages such as consistent amplitudes, less tube wave, clearer reflections, faster and cheaper cable acquisition.  
+**What is DAS?** DAS, stands for Distributed Acoustic Sensing, is an emerging geophysical technology that uses laser light scattering inside fiber-optic cables to measure dynamic strain and seismic waves. To learn more detailed about how the sensing works, I recommend this [blog](https://motionsignaltechnologies.com/what-is-das-and-what-is-it-measuring/). DAS is widely applied in many monitoring and profiling applications, such as earthquake (seismology), seismic data acquisition and reservoir monitoring of oil fields, construction, wind turbine, chemical tank storage, dam, and highways. Here, I wrote a comprehensive [article](https://www.linkedin.com/pulse/distributed-acoustic-sensing-answer-sustainability-quest-nuwara/) about DAS. Many believe, like [Bona and Pevzner (2018)](https://www.tandfonline.com/doi/abs/10.1071/ASEG2018abW8_4F), that DAS has many advantages such as consistent amplitudes, less tube wave, clearer reflections, faster and cheaper cable acquisition.  
 
 <p align="center">
   <img src="https://user-images.githubusercontent.com/51282928/146873724-264c0aa5-ba7f-41ae-87c2-f88a03c534ba.png" width="400" />
@@ -18,7 +18,7 @@
 * **DASDiagnostics**: Applying trace normalization and spectral analysis using f-x waterfall plot and F-K filter plot.
 * **DASCatalogMap**: Retrieving information from JMA catalog into Pandas DataFrame and plotting events on a map and polar plot.
 * **DASDetectivity**: Analyzing the detectivity of DAS to natural earthquakes based on picked arrival times, amplitude or Kurtosis plot versus epicentral distance, and azimuthal dependence on detectivity on polar plot. 
-* **DASSignalNoise**: Calculation of background noise level, signal-to-noise ratio (SNR) analysis, and to explore trace operations such as stacking and integration to improve SNR.
+* **[DASSignalNoise](https://github.com/yohanesnuwara/DASLab/blob/main/notebooks/DASSignalNoise.ipynb)**: Calculation of background noise level, signal-to-noise ratio (SNR) analysis, and to explore trace operations such as stacking and integration to improve SNR.
 
 ## Dependencies:
 * [npTDMS](https://pypi.org/project/npTDMS/0.25.0/): For reading TDMS files (**required version 0.25.0**)
