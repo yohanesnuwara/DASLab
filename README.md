@@ -26,7 +26,7 @@
 
 If you use this repository, please cite it as below:
 
-> Nuwara, Y. (2021). DASLab: Distributed Acoustic Sensing Lab (Version 1.0.0) [Computer software]
+> Nuwara, Y. (2021). DASLab: Distributed Acoustic Sensing Lab (Version 1.0.0) [Computer software]. https://doi.org/https://doi.org/10.5281/zenodo.5797215
 
 ## Dependencies:
 * [npTDMS](https://pypi.org/project/npTDMS/0.25.0/): For reading TDMS files (**required version 0.25.0**)
