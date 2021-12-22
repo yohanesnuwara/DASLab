@@ -16,8 +16,8 @@
 * **DASCompare**: Using waveform visualization, STFT spectogram, and f-x waterfall plot to compare the difference in straight and helical DAS cable recordings.
 * **DASContinuous**: Applying the automated picking algorithms on a simulated continuous DAS recordings.
 * **DASDiagnostics**: Applying trace normalization and spectral analysis using f-x waterfall plot and F-K filter plot.
-* **[DASCatalogMap](https://github.com/yohanesnuwara/DASLab/blob/main/DASCatalogMap.ipynb)**: Retrieving information from JMA catalog into Pandas DataFrame and plotting events on a map and polar plot.
-* **[DASDetectivity](https://github.com/yohanesnuwara/DASLab/blob/main/DASDetectivity.ipynb)**: Analyzing the detectivity of DAS to natural earthquakes based on picked arrival times, amplitude or Kurtosis plot versus epicentral distance, and azimuthal dependence on detectivity on polar plot. 
+* **[DASCatalogMap](https://github.com/yohanesnuwara/DASLab/blob/main/notebooks/DASCatalogMap.ipynb)**: Retrieving information from JMA catalog into Pandas DataFrame and plotting events on a map and polar plot.
+* **[DASDetectivity](https://github.com/yohanesnuwara/DASLab/blob/main/notebooks/DASDetectivity.ipynb)**: Analyzing the detectivity of DAS to natural earthquakes based on picked arrival times, amplitude or Kurtosis plot versus epicentral distance, and azimuthal dependence on detectivity on polar plot. 
 * **[DASSignalNoise](https://github.com/yohanesnuwara/DASLab/blob/main/notebooks/DASSignalNoise.ipynb)**: Calculation of background noise level, signal-to-noise ratio (SNR) analysis, and to explore trace operations such as stacking and integration to improve SNR.
 
 ## Dependencies:
