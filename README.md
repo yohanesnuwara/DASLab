@@ -12,13 +12,13 @@
 
 ## Check out the notebooks to see how we make use of DASLab
 
-* **DASAutopick**: Displaying DAS data, Butterworth bandpass filtering, and using multiple algorithms such as Kurtosis, AIC/BIC, STA/LTA, and Short Time Fourier Transform (STFT) for automated detection and picking of P-S wave events from DAS recordings. 
-* **DASCompare**: Using waveform visualization, STFT spectogram, and f-x waterfall plot to compare the difference in straight and helical DAS cable recordings.
-* **DASContinuous**: Applying the automated picking algorithms on a simulated continuous DAS recordings.
-* **DASDiagnostics**: Applying trace normalization and spectral analysis using f-x waterfall plot and F-K filter plot.
+* **[DASAutopick](https://github.com/yohanesnuwara/DASLab/blob/main/notebooks/DASAutopick.ipynb)**: Displaying DAS data, Butterworth bandpass filtering, and using multiple algorithms such as Kurtosis, AIC/BIC, STA/LTA, and Short Time Fourier Transform (STFT) for automated detection and picking of P-S wave events from DAS recordings. 
+* **[DASCompare](https://github.com/yohanesnuwara/DASLab/blob/main/notebooks/DASCompare.ipynb)**: Using waveform visualization, STFT spectogram, and f-x waterfall plot to compare the difference in straight and helical DAS cable recordings.
+* **[DASContinuous](https://github.com/yohanesnuwara/DASLab/blob/main/notebooks/DASContinuous.ipynb)**: Applying the automated picking algorithms on a simulated continuous DAS recordings.
+* **[DASSignalNoise](https://github.com/yohanesnuwara/DASLab/blob/main/notebooks/DASSignalNoise.ipynb)**: Calculation of background noise level, signal-to-noise ratio (SNR) analysis, and to explore trace operations such as stacking and integration to improve SNR.
+* **[DASDiagnostics](https://github.com/yohanesnuwara/DASLab/blob/main/notebooks/DASDiagnostics.ipynb)**: Applying trace normalization and spectral analysis using f-x waterfall plot and F-K filter plot.
 * **[DASCatalogMap](https://github.com/yohanesnuwara/DASLab/blob/main/notebooks/DASCatalogMap.ipynb)**: Retrieving information from JMA catalog into Pandas DataFrame and plotting events on a map and polar plot.
 * **[DASDetectivity](https://github.com/yohanesnuwara/DASLab/blob/main/notebooks/DASDetectivity.ipynb)**: Analyzing the detectivity of DAS to natural earthquakes based on picked arrival times, amplitude or Kurtosis plot versus epicentral distance, and azimuthal dependence on detectivity on polar plot. 
-* **[DASSignalNoise](https://github.com/yohanesnuwara/DASLab/blob/main/notebooks/DASSignalNoise.ipynb)**: Calculation of background noise level, signal-to-noise ratio (SNR) analysis, and to explore trace operations such as stacking and integration to improve SNR.
 
 ## Dependencies:
 * [npTDMS](https://pypi.org/project/npTDMS/0.25.0/): For reading TDMS files (**required version 0.25.0**)
