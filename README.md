@@ -20,6 +20,12 @@
 * **[DASCatalogMap](https://github.com/yohanesnuwara/DASLab/blob/main/notebooks/DASCatalogMap.ipynb)**: Retrieving information from JMA catalog into Pandas DataFrame and plotting events on a map and polar plot.
 * **[DASDetectivity](https://github.com/yohanesnuwara/DASLab/blob/main/notebooks/DASDetectivity.ipynb)**: Analyzing the detectivity of DAS to natural earthquakes based on picked arrival times, amplitude or Kurtosis plot versus epicentral distance, and azimuthal dependence on detectivity on polar plot. 
 
+## Cite this repository
+
+If you use this repository, please cite it as below:
+
+> Nuwara, Y. (2021). DASLab: Distributed Acoustic Sensing Lab (Version 1.0.0) [Computer software]
+
 ## Dependencies:
 * [npTDMS](https://pypi.org/project/npTDMS/0.25.0/): For reading TDMS files (**required version 0.25.0**)
 * [ObsPy](https://pypi.org/project/obspy/): For seismological operations 
