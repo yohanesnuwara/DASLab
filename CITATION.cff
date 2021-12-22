@@ -1,0 +1,10 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+  - family-names: Nuwara
+    given-names: Yohanes
+    orcid: https://orcid.org/0000-0003-0711-3422
+title: "DASLab: Distributed Acoustic Sensing Lab"
+version: 1.0.0
+doi: 
+date-released: 2021-12-22
